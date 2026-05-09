@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Kristen | Happy Mother's Day</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #d4af37;
+            --soft-white: #fdfbfb;
+            --text: #2d3436;
+            --accent: #e84393;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--soft-white);
+            color: var(--text);
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* Initial Overlay to bypass Autoplay blocks */
+        #overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: white;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease;
+        }
+
+        /* Hero Video Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        #hero-video {
+            position: absolute;
+            top: 50%; left: 50%;
+            min-width: 100%; min-height: 100%;
+            width: auto; height: auto;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            filter: brightness(0.6);
+        }
+
+        .hero-content h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 5rem;
+            margin: 0;
+            text-shadow: 2px 2px 20px rgba(0,0,0,0.5);
+        }
+
+        /* The Scrollytelling Sections */
+        .section {
+            padding: 100px 5%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1.5s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Polaroid Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .polaroid {
+            background: white;
+            padding: 15px 15px 50px 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.4s ease;
+        }
+
+        .polaroid img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .polaroid p {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            text-align: center;
+            margin-top: 20px;
+            color: var(--accent);
+        }
+
+        .polaroid:nth-child(even) { transform: rotate(2deg); }
+        .polaroid:nth-child(odd) { transform: rotate(-2deg); }
+        .polaroid:hover { transform: scale(1.05) rotate(0deg); z-index: 10; }
+
+        /* Full Album CTA */
+        .vault-section {
+            background: #fff0f3;
+            text-align: center;
+            padding: 120px 20px;
+            border-radius: 50px 50px 0 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 18px 40px;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 100px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 20px rgba(232, 67, 147, 0.3);
+            transition: 0.3s;
+        }
+
+        .btn:hover { transform: translateY(-5px); box-shadow: 0 15px 25px rgba(232, 67, 147, 0.4); }
+
+        /* Audio Control */
+        #music-toggle {
+            position: fixed;
+            bottom: 30px; right: 30px;
+            background: white;
+            border: none;
+            padding: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CLICK TO START OVERLAY -->
+    <div id="overlay">
+        <button onclick="startMagic()" class="btn">Begin the Magic</button>
+    </div>
+
+    <!-- MUSIC (Swap the SRC with your Teddy Swims file later) -->
+    <audio id="bg-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+    <button id="music-toggle" onclick="toggleMusic()">🎵</button>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <!-- SWAP THIS: Use a peaceful family/nature stock video -->
+        <video autoplay muted loop id="hero-video">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-beautiful-pink-flowers-in-the-wind-4100-large.mp4" type="video/mp4">
+        </video>
+        <div class="hero-content">
+            <h1 class="reveal">To Our Incredible Mom</h1>
+            <p class="reveal">A journey through our favorite moments.</p>
+        </div>
+    </section>
+
+    <!-- STORY SECTION -->
+    <section class="section">
+        <div class="reveal" style="text-align:center; margin-bottom: 80px;">
+            <h2 style="font-family: 'Dancing Script'; font-size: 3rem;">You make every day brighter.</h2>
+            <p>From the early mornings to the big adventures, we are so lucky to have you.</p>
+        </div>
+
+        <div class="gallery">
+            <!-- SWAP THESE: Replace with your images of Kristen & the kids -->
+            <div class="polaroid reveal">
+                <img src="https://images.unsplash.com/photo-1491013516836-7ad643eead76?auto=format&fit=crop&w=600" alt="Family">
+                <p>Pure Joy</p>
+            </div>
+            <div class="polaroid reveal">
+                <img src="https://images.unsplash.com/photo-1594161405021-9952542a2752?auto=format&fit=crop&w=600" alt="Beach Day">
+                <p>Adventure Partners</p>
+            </div>
+            <div class="polaroid reveal">
+                <img src="https://images.unsplash.com/photo-1542044896530-05d85be9b11a?auto=format&fit=crop&w=600" alt="Mom and son">
+                <p>Our Biggest Fan</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL VAULT CTA -->
+    <section class="vault-section">
+        <div class="reveal">
+            <h2 style="font-size: 2.5rem;">The 2026 Memory Vault</h2>
+            <p style="max-width: 600px; margin: 20px auto 40px;">All the photos we've been backing up... every laugh, every game, and every sunset captured just for you.</p>
+            <!-- SWAP THIS: Your Google Photos Shared Album Link -->
+            <a href="https://photos.google.com" target="_blank" class="btn">Explore the Full Album</a>
+        </div>
+    </section>
+
+    <footer style="padding: 50px; text-align: center; color: #999; font-size: 0.8rem;">
+        <p>Created with Love by Ali, Kamran & Ashton &bull; 2026</p>
+    </footer>
+
+    <script>
+        // Start Music and Animations
+        function startMagic() {
+            const music = document.getElementById('bg-music');
+            music.play();
+            document.getElementById('overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('overlay').style.display = 'none';
+            }, 1000);
+        }
+
+        function toggleMusic() {
+            const music = document.getElementById('bg-music');
+            if (music.paused) music.play();
+            else music.pause();
+        }
+
+        // Scroll Reveal Logic
+        const observerOptions = { threshold: 0.2 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
