@@ -3,229 +3,349 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KRISTEN-OS | Mother's Day 2026</title>
+    <title>For Kristen | The Chapters of Us</title>
     
+    <!-- Premium Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    
+    <!-- GSAP for High-End Animation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
     <style>
         :root {
-            --glass: rgba(255, 255, 255, 0.1);
-            --accent: #00d2ff;
-            --text: #ffffff;
+            --bg-color: #0f0f11;
+            --text-main: #f5f5f7;
+            --text-muted: #a1a1a6;
+            --accent: #d4af37;
         }
 
-        body {
+        body, html {
             margin: 0;
-            background: radial-gradient(circle at top right, #1e272e, #050505);
-            color: var(--text);
-            font-family: 'Outfit', sans-serif;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Lato', sans-serif;
             overflow-x: hidden;
-            height: 100vh;
+            overscroll-behavior: none;
         }
 
-        /* High-End Dashboard Grid */
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-            gap: 20px;
-            height: 90vh;
-            padding: 40px;
-            box-sizing: border-box;
+        h1, h2, h3 {
+            font-family: 'Cinzel', serif;
+            font-weight: 400;
         }
 
-        .tile {
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 24px;
-            padding: 25px;
+        /* Initial Audio/Start Screen */
+        #intro-gate {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: var(--bg-color);
+            z-index: 9999;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        .start-btn {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 15px 40px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .start-btn:hover {
+            background: var(--accent);
+            color: var(--bg-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 5vw;
+            letter-spacing: 5px;
+            margin: 0;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: 20px;
+            opacity: 0;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; transform: translate(-50%, 0); }
+            50% { opacity: 1; transform: translate(-50%, 10px); }
+            100% { opacity: 0.4; transform: translate(-50%, 0); }
+        }
+
+        /* Horizontal Scroll Container */
+        .horizontal-wrapper {
+            width: 400vw; /* 4 panels = 400vw */
+            height: 100vh;
+            display: flex;
+            flex-wrap: nowrap;
+        }
+
+        .panel {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5vw;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        /* Cinematic Layout inside Panels */
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5vw;
+            width: 100%;
+            max-width: 1400px;
+            align-items: center;
+        }
+
+        .story-text {
+            padding-right: 40px;
+        }
+
+        .story-text h2 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+            line-height: 1.1;
+        }
+
+        .story-text p {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            color: #d1d1d6;
+        }
+
+        .story-image-container {
+            width: 100%;
+            height: 70vh;
             overflow: hidden;
             position: relative;
         }
 
-        .tile:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.15);
-            border-color: var(--accent);
+        .story-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(20%) brightness(0.8);
+            transform: scale(1.1); /* Prep for parallax */
         }
 
-        /* Custom Header */
-        .header {
-            grid-column: span 4;
+        /* Final Letter Section */
+        .outro {
+            min-height: 100vh;
             display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-
-        .header h1 {
-            font-size: 3.5rem;
-            margin: 0;
-            font-weight: 800;
-            letter-spacing: -2px;
-        }
-
-        .header .sub {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            color: var(--accent);
-        }
-
-        /* Specific Content Blocks */
-        .countdown-val { font-size: 3rem; font-weight: 800; color: var(--accent); }
-        .boy-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.6; }
-        
-        .stat-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .stat-item {
-            background: rgba(0,0,0,0.3);
-            padding: 15px;
-            border-radius: 15px;
-            text-align: center;
-        }
-
-        .stat-num { display: block; font-size: 1.5rem; font-weight: 600; }
-
-        /* The Big "Photo" Tile */
-        .hero-tile {
-            grid-column: span 2;
-            grid-row: span 2;
-            background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000') center/cover; /* SWAP FOR FAMILY PHOTO */
-        }
-
-        .hero-overlay {
-            position: absolute;
-            bottom: 0; left: 0; width: 100%;
-            padding: 30px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8));
-        }
-
-        .btn-vault {
-            grid-column: span 4;
-            background: var(--accent);
-            color: #000;
-            text-align: center;
-            font-weight: 800;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
-            cursor: pointer;
-            text-decoration: none;
-            border-radius: 100px;
-            margin-top: 20px;
+            align-items: center;
+            padding: 20px;
+            background: #000;
+            text-align: center;
         }
 
-        /* Mobile Fix */
-        @media (max-width: 1024px) {
-            .dashboard { display: flex; flex-direction: column; height: auto; }
-            .hero-tile { height: 400px; }
+        .vault-btn {
+            margin-top: 50px;
+            display: inline-block;
+            color: var(--bg-color);
+            background: var(--text-main);
+            text-decoration: none;
+            padding: 18px 40px;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+        }
+
+        .vault-btn:hover {
+            background: var(--accent);
+        }
+
+        @media (max-width: 900px) {
+            .story-grid { grid-template-columns: 1fr; text-align: center; }
+            .story-text { padding-right: 0; margin-bottom: 30px; }
+            .story-image-container { height: 40vh; }
+            .horizontal-wrapper { width: 100vw; flex-direction: column; height: auto; }
+            .panel { height: auto; padding: 100px 20px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="dashboard">
-        <!-- HEADER -->
-        <div class="header tile" style="background: transparent; border: none; backdrop-filter: none;">
-            <div>
-                <p class="sub">To the CEO of the Chitsaz Family</p>
-                <h1>Happy Mother's Day, Kristen</h1>
-            </div>
-            <div style="text-align: right;">
-                <p class="boy-label">Location: Temecula, CA</p>
-                <p id="clock" style="font-weight: 600;">00:00:00</p>
-            </div>
-        </div>
+    <!-- Audio Player: Insert Teddy Swims - Simple Things here -->
+    <audio id="bg-music" loop>
+        <source src="YOUR_TEDDY_SWIMS_AUDIO_FILE.mp3" type="audio/mpeg">
+    </audio>
 
-        <!-- HERO PHOTO -->
-        <div class="hero-tile tile">
-            <div class="hero-overlay">
-                <h2 style="margin:0">The Year of Us</h2>
-                <p>2026: More love, more adventures, more magic.</p>
-            </div>
-        </div>
-
-        <!-- COUNTDOWN TO CURACAO -->
-        <div class="tile">
-            <p class="boy-label">Next Destination</p>
-            <div>
-                <div class="countdown-val">JUNE</div>
-                <p>Countdown to Curacao '26</p>
-            </div>
-        </div>
-
-        <!-- THE BOYS -->
-        <div class="tile">
-            <p class="boy-label">The Core Team</p>
-            <div class="stat-grid">
-                <div class="stat-item">
-                    <span class="stat-num">KAMRAN</span>
-                    <span style="font-size: 0.7rem;">Class of '31</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-num">ASHTON</span>
-                    <span style="font-size: 0.7rem;">Class of '36</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- FAMILY STATS -->
-        <div class="tile">
-            <p class="boy-label">2026 System Metrics</p>
-            <div class="stat-grid">
-                <div class="stat-item">
-                    <span class="stat-num">∞</span>
-                    <span style="font-size: 0.7rem;">Love Logged</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-num">100%</span>
-                    <span style="font-size: 0.7rem;">Happiness ROI</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- SNOW/SURF STATUS -->
-        <div class="tile">
-            <p class="boy-label">Lifestyle Status</p>
-            <div>
-                <span style="color: var(--accent);">●</span> Snowboarding Season Active<br>
-                <span style="color: var(--accent);">●</span> Flag Football Coaching Mode
-            </div>
-        </div>
-
-        <!-- THE VAULT -->
-        <a href="https://photos.google.com" target="_blank" class="tile btn-vault">
-            ACCESS THE GOOGLE PHOTOS VAULT 2.0
-        </a>
+    <!-- Start Gate to bypass audio restrictions -->
+    <div id="intro-gate">
+        <h3 style="color: var(--text-muted); margin-bottom: 30px; letter-spacing: 4px;">MOTHER'S DAY 2026</h3>
+        <button class="start-btn" onclick="startExperience()">Begin</button>
     </div>
 
-    <script>
-        // Smooth In Animation
-        gsap.from(".tile", {
-            duration: 1,
-            y: 50,
-            opacity: 0,
-            stagger: 0.1,
-            ease: "power4.out"
-        });
+    <!-- Hero -->
+    <section class="hero">
+        <h1 class="hero-text">KRISTEN</h1>
+        <p class="hero-subtext">The Heart of Our Year</p>
+        <div class="scroll-indicator">SCROLL TO EXPLORE</div>
+    </section>
 
-        // Live Clock
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('clock').innerText = now.toLocaleTimeString();
+    <!-- The Horizontal Scroll Timeline -->
+    <div class="horizontal-container">
+        <div class="horizontal-wrapper">
+            
+            <!-- Panel 1: Fall/Winter -->
+            <section class="panel">
+                <div class="story-grid">
+                    <div class="story-text">
+                        <h2>The Sidelines & The Snow</h2>
+                        <p>From the chill of the 6v6 Pylon to Pylon games, watching Kamran battle it out on the turf, to that freezing February strike mission up in Whistler and Vancouver. Through every intense quarter and every run down the mountain, you are the warmth we always return to. You make the chaos beautiful.</p>
+                    </div>
+                    <div class="story-image-container">
+                        <!-- Swap with a photo from Whistler or Flag Football -->
+                        <img src="https://images.unsplash.com/photo-1542044896530-05d85be9b11a?auto=format&fit=crop&w=1000" class="parallax-img" alt="Winter Memories">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Panel 2: The Daily Grind -->
+            <section class="panel">
+                <div class="story-grid" style="direction: rtl;">
+                    <div class="story-text" style="direction: ltr;">
+                        <h2>The Temecula Magic</h2>
+                        <p>It isn't just in the big trips. It’s in the quiet moments at home. It’s watching you balance a demanding career while never missing a beat with the boys. At 13 and 8, Kamran and Ashton are watching how you carry the weight of the world and still manage to fill this house with light every single day.</p>
+                    </div>
+                    <div class="story-image-container">
+                        <!-- Swap with a candid home photo of her and the boys -->
+                        <img src="https://images.unsplash.com/photo-1591123120675-6f7f1aae0e5b?auto=format&fit=crop&w=1000" class="parallax-img" alt="Home Life">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Panel 3: Looking Forward -->
+            <section class="panel">
+                <div class="story-grid">
+                    <div class="story-text">
+                        <h2>The Horizon</h2>
+                        <p>You’ve poured so much into us this year, and now it's time to look ahead. June is just around the corner. The crystal clear waters of Curacao, the beaches at LionsDive, and the pools at Hilton Mangrove are waiting. It’s our turn to celebrate you in the sunshine you deserve.</p>
+                    </div>
+                    <div class="story-image-container">
+                        <!-- Swap with a tropical/waterfront placeholder or past Maui/Cozumel trip photo -->
+                        <img src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&w=1000" class="parallax-img" alt="Tropical Horizon">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Panel 4: The Transition -->
+            <section class="panel" style="justify-content: center; text-align: center;">
+                <div style="max-width: 800px;">
+                    <h2 style="font-size: 4rem; color: var(--accent); margin-bottom: 30px;">Every moment, captured.</h2>
+                    <p style="font-size: 1.5rem; color: var(--text-muted);">Because a year like this one deserves to be remembered.</p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Final Outro / Google Photos Link -->
+    <section class="outro">
+        <h2 style="font-size: 3rem; margin-bottom: 10px;">Happy Mother's Day</h2>
+        <p style="font-size: 1.2rem; color: var(--text-muted); letter-spacing: 2px;">WITH LOVE FROM ALI, KAMRAN, & ASHTON</p>
+        <a href="YOUR_GOOGLE_PHOTOS_LINK_HERE" target="_blank" class="vault-btn">Open The 2025-2026 Memory Vault</a>
+    </section>
+
+    <script>
+        // Start Sequence
+        function startExperience() {
+            document.getElementById('bg-music').play();
+            document.getElementById('intro-gate').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('intro-gate').style.display = 'none';
+                
+                // Animate Hero text in after gate drops
+                gsap.to(".hero-text", { y: 0, opacity: 1, duration: 1.5, ease: "power3.out" });
+                gsap.to(".hero-subtext", { opacity: 1, duration: 1.5, delay: 0.5 });
+            }, 1500);
         }
-        setInterval(updateClock, 1000);
-        updateClock();
+
+        // GSAP Registration
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Only run horizontal scroll on desktop to keep mobile experience smooth (vertical stack)
+        let mm = gsap.matchMedia();
+
+        mm.add("(min-width: 901px)", () => {
+            let sections = gsap.utils.toArray(".panel");
+            let container = document.querySelector(".horizontal-wrapper");
+
+            // Horizontal Scroll pinning logic
+            gsap.to(sections, {
+                xPercent: -100 * (sections.length - 1),
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".horizontal-container",
+                    pin: true,
+                    scrub: 1,
+                    snap: 1 / (sections.length - 1),
+                    end: () => "+=" + container.offsetWidth
+                }
+            });
+
+            // Parallax effect on images within the horizontal scroll
+            sections.forEach((section) => {
+                let img = section.querySelector(".parallax-img");
+                if(img) {
+                    gsap.to(img, {
+                        x: 100, // Move image slightly to the right as user scrolls left
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: ".horizontal-container",
+                            scrub: true,
+                            start: "top top",
+                            end: () => "+=" + container.offsetWidth
+                        }
+                    });
+                }
+            });
+        });
     </script>
 </body>
 </html>
