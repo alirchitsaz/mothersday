@@ -1,241 +1,388 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Heart & The Horizon - Tribute Storyboard</title>
-<style>
-  body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: #111;
-    color: #eee;
-    margin: 0;
-    padding: 40px 20px;
-  }
-  .container {
-    max-width: 900px;
-    margin: 0 auto;
-  }
-  h1 {
-    text-align: center;
-    color: #fff;
-    font-size: 2.5em;
-    margin-bottom: 5px;
-    letter-spacing: 2px;
-  }
-  .subtitle {
-    text-align: center;
-    color: #888;
-    margin-bottom: 40px;
-    font-style: italic;
-  }
-  .audio-cues {
-    background-color: #222;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 40px;
-    border-left: 4px solid #d4af37;
-  }
-  .audio-cues h3 {
-    margin-top: 0;
-    color: #d4af37;
-  }
-  .timeline {
-    border-left: 3px solid #333;
-    padding-left: 30px;
-    margin-left: 15px;
-  }
-  .act {
-    margin-bottom: 50px;
-    position: relative;
-  }
-  .act::before {
-    content: '';
-    position: absolute;
-    left: -38px;
-    top: 5px;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background-color: #d4af37;
-    border: 3px solid #111;
-  }
-  .act h2 {
-    color: #d4af37;
-    margin-top: 0;
-    font-size: 1.8em;
-  }
-  .act p {
-    color: #aaa;
-    line-height: 1.5;
-  }
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 15px;
-    margin-top: 20px;
-  }
-  .card {
-    background-color: #1a1a1a;
-    border: 1px dashed #555;
-    border-radius: 8px;
-    padding: 25px 15px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 120px;
-    transition: all 0.3s ease;
-  }
-  .card:hover {
-    border-color: #d4af37;
-    background-color: #252525;
-    transform: translateY(-3px);
-  }
-  .card span {
-    font-size: 0.95em;
-    font-weight: 500;
-  }
-  .card small {
-    display: block;
-    margin-top: 8px;
-    color: #777;
-    font-size: 0.8em;
-  }
-  .easter-egg {
-    border-color: #c84b31;
-    background-color: #2a1612;
-  }
-  .easter-egg span {
-    color: #e07a5f;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The Heart & The Horizon</title>
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --text-main: #f4f4f5;
+            --text-muted: #a1a1aa;
+            --accent: #d4af37;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Start Overlay */
+        #start-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: opacity 1s ease;
+        }
+
+        #start-btn {
+            background-color: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        /* Story Container */
+        #story-container {
+            display: none;
+            padding-bottom: 100px;
+        }
+
+        .chapter {
+            min-height: 100vh;
+            padding: 60px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .chapter-title {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            font-weight: 300;
+        }
+
+        .chapter-desc {
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 600px;
+            font-size: 1.1rem;
+        }
+
+        .media-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .media-item {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+            position: relative;
+        }
+
+        img, video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            color: #fff;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Easter Egg */
+        #easter-egg-trigger {
+            margin-top: 20px;
+            color: #ff6b6b;
+            font-size: 1.5rem;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        #easter-egg-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        #easter-egg-modal img {
+            max-width: 90%;
+            max-height: 70vh;
+            border-radius: 12px;
+            border: 2px solid #ff6b6b;
+        }
+
+        #close-modal {
+            margin-top: 20px;
+            color: #fff;
+            background: transparent;
+            border: 1px solid #fff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        /* Boarding Pass */
+        .boarding-pass {
+            background: #fff;
+            color: #000;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 30px;
+            text-align: left;
+            border-left: 8px solid var(--accent);
+        }
+        
+        .boarding-pass h3 {
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            color: #555;
+        }
+        .boarding-pass h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
 
-<div class="container">
-  <h1>THE HEART & THE HORIZON</h1>
-  <div class="subtitle">A visual tribute for Kristen, Kamran, and Ashton</div>
+    <!-- Audio Elements -->
+    <audio id="audio-intro" src="audio/intro_voice.mp3"></audio>
+    <audio id="audio-track1" src="audio/teddy_amazing.mp3" loop></audio>
+    <audio id="audio-track2" src="audio/teddy_lose_control.mp3" loop></audio>
 
-  <div class="audio-cues">
-    <h3>🎵 Soundtrack Strategy</h3>
-    <p><strong>Track 1 (Acts 1):</strong> <em>Teddy Swims - "Amazing"</em>. Slow, deeply emotional, and acoustic. Perfect for highlighting her strength, her daily hustle, and honoring Kobe.</p>
-    <p><strong>Track 2 (Acts 2, 3 & 4):</strong> <em>Teddy Swims - "Lose Control"</em>. The beat drops here. High energy, massive vocals, driving the fast-paced cuts of travel, rollercoasters, and summer vibes.</p>
-  </div>
-
-  <div class="timeline">
-    
-    <!-- ACT 1 -->
-    <div class="act">
-      <h2>Act 1: The Anchor</h2>
-      <p>Music: "Amazing" (Soft volume). Setting the stage with who she is to the family.</p>
-      <div class="grid">
-        <div class="card">
-          <span>Tribute to Kobe</span>
-          <small>A quiet, beautiful photo of Kristen with Kobe from January.</small>
-        </div>
-        <div class="card">
-          <span>The Principal</span>
-          <small>Candid photo of her in work mode or getting ready for school.</small>
-        </div>
-        <div class="card">
-          <span>The Chef & Mom</span>
-          <small>Video clip: Laughing in the kitchen while making dinner for the boys.</small>
-        </div>
-        <div class="card">
-          <span>Pilates & Peace</span>
-          <small>Photo of her heading to Pilates or relaxing at home.</small>
-        </div>
-        <div class="card easter-egg">
-          <span>🥂 Nashville Easter Egg</span>
-          <small>Flash a 1-second close-up of drinks or a neon sign from October.</small>
-        </div>
-      </div>
+    <!-- Start Screen -->
+    <div id="start-screen">
+        <h1 style="color: #fff; font-weight: 300; margin-bottom: 30px; font-size: 1.5rem; letter-spacing: 2px;">For Kristen.</h1>
+        <button id="start-btn">Begin the Journey</button>
     </div>
 
-    <!-- ACT 2 -->
-    <div class="act">
-      <h2>Act 2: The Resets & Escapes</h2>
-      <p>Music transitions to "Lose Control" as the energy ramps up.</p>
-      <div class="grid">
-        <div class="card">
-          <span>Summer in Cabo</span>
-          <small>Bright, sun-soaked family photo on the beach.</small>
+    <!-- Main Story Container -->
+    <div id="story-container">
+        
+        <!-- Chapter 1 -->
+        <div class="chapter fade-in">
+            <h2 class="chapter-title">The Anchor</h2>
+            <p class="chapter-desc">Through the heaviest losses and the daily hustle, you are our heart.</p>
+            <div class="media-grid">
+                <div class="media-item fade-in"><img src="chapter1_anchor/marin_thanksgiving.jpg" alt="Marin Thanksgiving" onerror="this.style.display='none'"><div class="caption">Thanksgiving in Marin. Our tradition.</div></div>
+                <div class="media-item fade-in"><img src="chapter1_anchor/kobe_memory.jpg" alt="Kobe Memory" onerror="this.style.display='none'"><div class="caption">Saying goodbye to our best boy. You carried us through.</div></div>
+                <div class="media-item fade-in"><img src="chapter1_anchor/kristen_principal.jpg" alt="Principal Kristen" onerror="this.style.display='none'"><div class="caption">The boss by day...</div></div>
+                <div class="media-item fade-in"><video src="chapter1_anchor/kristen_cooking.mp4" autoplay loop muted playsinline></video><div class="caption">...and the heart of our home by night.</div></div>
+                <div class="media-item fade-in"><img src="chapter1_anchor/kristen_pilates.jpg" alt="Pilates" onerror="this.style.display='none'"><div class="caption">Finding your center.</div></div>
+                <div class="media-item fade-in"><img src="chapter1_anchor/neighborhood_friends.jpg" alt="Friends" onerror="this.style.display='none'"><div class="caption">The social glue of our neighborhood.</div></div>
+            </div>
         </div>
-        <div class="card">
-          <span>Laguna Beach Days</span>
-          <small>Quick montage of waves and the boys playing in the sand last summer.</small>
+
+        <!-- Chapter 2 -->
+        <div class="chapter fade-in" id="chapter-2" style="background: linear-gradient(to bottom, var(--bg-color), #1a202c);">
+            <h2 class="chapter-title">The Winter Carves</h2>
+            <p class="chapter-desc">Finding our speed and locking in on the mountain.</p>
+            <div class="media-grid">
+                <div class="media-item fade-in"><video src="chapter2_snow/tahoe_christmas.mp4" autoplay loop muted playsinline></video><div class="caption">Tahoe Christmas. Pure magic.</div></div>
+                <div class="media-item fade-in"><video src="chapter2_snow/mammoth_april.mp4" autoplay loop muted playsinline></video><div class="caption">Spring riding in Mammoth. +12/-3 and dropping in.</div></div>
+            </div>
         </div>
-        <div class="card">
-          <span>Tahoe Winter</span>
-          <small>Video clip: Snapping into the Burton bindings (+12 front, -3 back) before dropping in the snow.</small>
+
+        <!-- Chapter 3 -->
+        <div class="chapter fade-in" id="chapter-3">
+            <h2 class="chapter-title">The Sun & The Thrills</h2>
+            <p class="chapter-desc">Resets, red rocks, and making the boys feel like legends.</p>
+            <div class="media-grid">
+                <div class="media-item fade-in"><img src="chapter3_sun/laguna_summer.jpg" alt="Laguna Summer" onerror="this.style.display='none'"><div class="caption">Summer days in Laguna.</div></div>
+                <div class="media-item fade-in"><img src="chapter3_sun/zion_hike.jpg" alt="Zion Red Rocks" onerror="this.style.display='none'"><div class="caption">Conquering Zion for Spring Break.</div></div>
+                <div class="media-item fade-in"><img src="chapter3_sun/vegas_lights.jpg" alt="Vegas" onerror="this.style.display='none'"><div class="caption">Vegas lights.</div></div>
+                <div class="media-item fade-in"><img src="chapter3_sun/gaylord_pacific.jpg" alt="Gaylord" onerror="this.style.display='none'"><div class="caption">Quick resets at the Gaylord Pacific.</div></div>
+                <div class="media-item fade-in"><img src="chapter3_sun/ashton_universal.jpg" alt="Ashton 8" onerror="this.style.display='none'"><div class="caption">Ashton hits 8 at Universal!</div></div>
+                <div class="media-item fade-in"><video src="chapter3_sun/kamran_sixflags.mp4" autoplay loop muted playsinline></video><div class="caption">Kamran is officially 13. Six Flags survival mode.</div></div>
+            </div>
         </div>
-        <div class="card">
-          <span>Zion Red Rocks</span>
-          <small>Family hiking shot from Spring Break.</small>
+
+        <!-- Chapter 4 -->
+        <div class="chapter fade-in">
+            <h2 class="chapter-title">Just Us & The Horizon</h2>
+            <p class="chapter-desc">Because amidst all the beautiful chaos, it's always been you.</p>
+            <div class="media-grid">
+                <div class="media-item fade-in"><img src="chapter4_horizon/cabo_june.jpg" alt="Cabo" onerror="this.style.display='none'"><div class="caption">Sun soaked in Cabo.</div></div>
+                <div class="media-item fade-in"><img src="chapter4_horizon/just_us.jpg" alt="Just Us" onerror="this.style.display='none'"><div class="caption">My everything.</div></div>
+                
+                <!-- Interactive Easter Egg Trigger -->
+                <div id="easter-egg-trigger" class="fade-in">🎸 🎵</div>
+
+                <div class="media-item fade-in"><img src="chapter4_horizon/curacao_preview.jpg" alt="Curacao" onerror="this.style.display='none'"><div class="caption">What's next...</div></div>
+                
+                <!-- Boarding Pass Graphic -->
+                <div class="boarding-pass fade-in">
+                    <h3>Passenger</h3>
+                    <h2>Kristen</h2>
+                    <h3>Destination</h3>
+                    <h2>Curaçao</h2>
+                    <p style="font-size: 0.8rem; color: #777;">LionsDive & Hilton Mangrove • June 5th</p>
+                </div>
+            </div>
         </div>
-        <div class="card">
-          <span>Vegas Lights</span>
-          <small>Quick evening photo from the Spring Break Vegas stop.</small>
-        </div>
-        <div class="card">
-          <span>Gaylord Pacific</span>
-          <small>A fun pool or resort shot from one of the weekend getaways.</small>
-        </div>
-      </div>
     </div>
 
-    <!-- ACT 3 -->
-    <div class="act">
-      <h2>Act 3: Celebrating the Boys</h2>
-      <p>Music: Fast, upbeat cuts matching the tempo of the chorus.</p>
-      <div class="grid">
-        <div class="card">
-          <span>Ashton Turns 8!</span>
-          <small>March 9th: Big smiles at Universal Studios.</small>
-        </div>
-        <div class="card">
-          <span>Universal Action</span>
-          <small>Video clip: Ashton on a ride or posing with a character.</small>
-        </div>
-        <div class="card">
-          <span>Kamran Turns 13!</span>
-          <small>April 28th: The official teenager shot at Six Flags.</small>
-        </div>
-        <div class="card">
-          <span>Six Flags Thrills</span>
-          <small>Video clip: Rollercoaster drop or Kamran and Kristen laughing.</small>
-        </div>
-      </div>
+    <!-- Easter Egg Modal -->
+    <div id="easter-egg-modal">
+        <h3 style="color: #fff; margin-bottom: 15px; font-weight: 300;">A little secret just for us...</h3>
+        <img src="chapter4_horizon/nashville_easter_egg.jpg" alt="Nashville" onerror="this.style.display='none'">
+        <button id="close-modal">Close</button>
     </div>
 
-    <!-- ACT 4 -->
-    <div class="act">
-      <h2>Act 4: The Horizon</h2>
-      <p>Music: The final soaring chorus fading out into a sweet acoustic finish.</p>
-      <div class="grid">
-        <div class="card">
-          <span>Neighborhood Friends</span>
-          <small>Kristen shining as the social butterfly with her friend group.</small>
-        </div>
-        <div class="card easter-egg">
-          <span>🎸 Nashville Easter Egg</span>
-          <small>A quick selfie of just the two of you from the October trip.</small>
-        </div>
-        <div class="card">
-          <span>Just Us</span>
-          <small>A romantic photo of you and Kristen.</small>
-        </div>
-        <div class="card" style="border-color: #d4af37;">
-          <span>The Next Adventure</span>
-          <small>Text Overlay with family photo: "June 5th - LionsDive & Hilton Mangrove, here we come!"</small>
-        </div>
-      </div>
-    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const startBtn = document.getElementById('start-btn');
+            const startScreen = document.getElementById('start-screen');
+            const storyContainer = document.getElementById('story-container');
+            const audioIntro = document.getElementById('audio-intro');
+            const audioTrack1 = document.getElementById('audio-track1');
+            const audioTrack2 = document.getElementById('audio-track2');
 
-  </div>
-</div>
+            // Scroll Animation Observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        
+                        // Audio Crossfade Logic based on Chapters
+                        if (entry.target.id === 'chapter-2') {
+                            fadeAudio(audioTrack1, audioTrack2);
+                        }
+                    }
+                });
+            }, { threshold: 0.1 });
 
+            // Start Button Logic (Unlocks iOS Audio Context)
+            startBtn.addEventListener('click', () => {
+                startScreen.style.opacity = '0';
+                setTimeout(() => {
+                    startScreen.style.display = 'none';
+                    storyContainer.style.display = 'block';
+                    
+                    // Start observing elements
+                    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+                    
+                    // Audio Playback flow
+                    audioIntro.play().catch(() => {
+                        // If intro fails or doesn't exist, start track 1
+                        audioTrack1.volume = 0.5;
+                        audioTrack1.play().catch(e => console.log("Audio play blocked", e));
+                    });
+                    
+                    audioIntro.onended = () => {
+                        audioTrack1.volume = 0;
+                        audioTrack1.play();
+                        fadeInAudio(audioTrack1, 0.5);
+                    };
+                    
+                }, 1000);
+            });
+
+            // Audio Fade Helpers
+            function fadeInAudio(audio, targetVolume) {
+                let vol = 0;
+                audio.volume = vol;
+                const fade = setInterval(() => {
+                    if (vol < targetVolume) {
+                        vol += 0.05;
+                        audio.volume = Math.min(vol, targetVolume);
+                    } else {
+                        clearInterval(fade);
+                    }
+                }, 200);
+            }
+
+            function fadeAudio(audioOut, audioIn) {
+                if (audioIn.paused) {
+                    audioIn.volume = 0;
+                    audioIn.play();
+                    
+                    let volOut = audioOut.volume;
+                    let volIn = 0;
+                    
+                    const crossfade = setInterval(() => {
+                        if (volOut > 0) {
+                            volOut -= 0.05;
+                            audioOut.volume = Math.max(volOut, 0);
+                        }
+                        if (volIn < 0.6) { // Max volume for track 2
+                            volIn += 0.05;
+                            audioIn.volume = Math.min(volIn, 0.6);
+                        }
+                        if (volOut <= 0 && volIn >= 0.6) {
+                            clearInterval(crossfade);
+                            audioOut.pause();
+                        }
+                    }, 200);
+                }
+            }
+
+            // Easter Egg Logic
+            const eggTrigger = document.getElementById('easter-egg-trigger');
+            const eggModal = document.getElementById('easter-egg-modal');
+            const closeModal = document.getElementById('close-modal');
+
+            eggTrigger.addEventListener('click', () => {
+                eggModal.style.display = 'flex';
+            });
+
+            closeModal.addEventListener('click', () => {
+                eggModal.style.display = 'none';
+            });
+        });
+    </script>
 </body>
 </html>
