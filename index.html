@@ -344,17 +344,20 @@
       flex: 0 0 1px;
     }
 
-    /* Text page */
+    /* Text page — natural top-aligned flow, page number pinned to bottom */
     .text-page {
-      padding: 6% 8% 5%;
-      justify-content: space-between;
+      padding: 7% 8% 5%;
+      justify-content: flex-start;     /* content flows from top */
       text-align: center;
-      overflow-y: auto; /* safety net so the longest verse is never clipped */
+      overflow-y: auto;                /* safety net — never clip a verse */
+      scrollbar-width: thin;
+      scrollbar-color: rgba(120,90,50,.25) transparent;
     }
-    /* Hide the scrollbar visually while still allowing scroll if ever needed */
-    .text-page { scrollbar-width: thin; scrollbar-color: rgba(120,90,50,.25) transparent; }
     .text-page::-webkit-scrollbar { width: 6px; }
     .text-page::-webkit-scrollbar-thumb { background: rgba(120,90,50,.2); border-radius: 4px; }
+    .text-page .heading-group { flex: 0 0 auto; }
+    .text-page .verse         { flex: 0 0 auto; margin-top: 1.4rem; }
+    .text-page .page-number   { flex: 0 0 auto; margin-top: auto; padding-top: 1.4rem; }
     .chapter-eyebrow {
       font-family: 'Playfair Display', serif;
       font-style: italic;
@@ -794,7 +797,7 @@
       <!-- Page 4 — Page 1 verse -->
       <div class="page">
         <div class="text-page">
-          <div>
+          <div class="heading-group">
             <p class="chapter-eyebrow">Chapter One</p>
             <h2 class="chapter-title">The Soul of the House</h2>
             <p class="chapter-date">Where every adventure begins</p>
@@ -828,7 +831,7 @@
       <!-- Page 6 — Page 2 verse -->
       <div class="page">
         <div class="text-page">
-          <div>
+          <div class="heading-group">
             <p class="chapter-eyebrow">Chapter Two</p>
             <h2 class="chapter-title">Splashes &amp; Sun</h2>
             <p class="chapter-date">May – June 2025 · Gaylord Pacific &amp; Cabo</p>
@@ -860,7 +863,7 @@
       <!-- Page 8 — Page 3 verse -->
       <div class="page">
         <div class="text-page">
-          <div>
+          <div class="heading-group">
             <p class="chapter-eyebrow">Chapter Three</p>
             <h2 class="chapter-title">The Red &amp; The Gold</h2>
             <p class="chapter-date">Fall 2025 · Niners Season &amp; Thanksgiving in Marin</p>
@@ -892,7 +895,7 @@
       <!-- Page 10 — Page 4 verse -->
       <div class="page">
         <div class="text-page">
-          <div>
+          <div class="heading-group">
             <p class="chapter-eyebrow">Chapter Four</p>
             <h2 class="chapter-title">The Winter Carves</h2>
             <p class="chapter-date">Dec 2025 – April 2026 · Tahoe with the Wagners &amp; Mammoth</p>
@@ -924,7 +927,7 @@
       <!-- Page 12 — Page 5 verse -->
       <div class="page">
         <div class="text-page">
-          <div>
+          <div class="heading-group">
             <p class="chapter-eyebrow">Chapter Five</p>
             <h2 class="chapter-title">Red Rocks &amp; Bright Lights</h2>
             <p class="chapter-date">March 2026 · Zion &amp; Las Vegas</p>
@@ -956,7 +959,7 @@
       <!-- Page 14 — Page 6 verse -->
       <div class="page">
         <div class="text-page">
-          <div>
+          <div class="heading-group">
             <p class="chapter-eyebrow">Chapter Six</p>
             <h2 class="chapter-title">The Milestone Marches</h2>
             <p class="chapter-date">March 9 – April 28, 2026 · Eight + Thirteen</p>
@@ -988,7 +991,7 @@
       <!-- Page 16 — Page 7 verse -->
       <div class="page">
         <div class="text-page">
-          <div>
+          <div class="heading-group">
             <p class="chapter-eyebrow">Chapter Seven</p>
             <h2 class="chapter-title">The Sanctuary</h2>
             <p class="chapter-date">Our place by the sea · Laguna Beach</p>
@@ -1020,7 +1023,7 @@
       <!-- Page 18 — Page 8 verse -->
       <div class="page">
         <div class="text-page">
-          <div>
+          <div class="heading-group">
             <p class="chapter-eyebrow">Chapter Eight</p>
             <h2 class="chapter-title">The Anchor</h2>
             <p class="chapter-date">Mother's Day · May 10, 2026</p>
@@ -1052,7 +1055,7 @@
       <!-- Page 20 — Page 9 verse -->
       <div class="page">
         <div class="text-page">
-          <div>
+          <div class="heading-group">
             <p class="chapter-eyebrow">Chapter Nine</p>
             <h2 class="chapter-title">The Horizon</h2>
             <p class="chapter-date">June 5, 2026 · Curaçao · LionsDive</p>
