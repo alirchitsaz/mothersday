@@ -346,14 +346,19 @@
 
     /* Text page */
     .text-page {
-      padding: 10% 9%;
+      padding: 6% 8% 5%;
       justify-content: space-between;
       text-align: center;
+      overflow-y: auto; /* safety net so the longest verse is never clipped */
     }
+    /* Hide the scrollbar visually while still allowing scroll if ever needed */
+    .text-page { scrollbar-width: thin; scrollbar-color: rgba(120,90,50,.25) transparent; }
+    .text-page::-webkit-scrollbar { width: 6px; }
+    .text-page::-webkit-scrollbar-thumb { background: rgba(120,90,50,.2); border-radius: 4px; }
     .chapter-eyebrow {
       font-family: 'Playfair Display', serif;
       font-style: italic;
-      font-size: .95rem;
+      font-size: .9rem;
       letter-spacing: .25em;
       text-transform: uppercase;
       color: var(--gold-deep);
@@ -370,34 +375,35 @@
     .chapter-title {
       font-family: 'Playfair Display', serif;
       font-weight: 700;
-      font-size: clamp(1.4rem, 2.4vw, 2.1rem);
+      font-size: clamp(1.25rem, 2vw, 1.8rem);
       color: var(--navy);
-      line-height: 1.15;
-      margin: .6rem 0 0;
+      line-height: 1.1;
+      margin: .4rem 0 0;
     }
     .chapter-date {
       font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       color: var(--ink-soft);
-      font-size: .95rem;
-      margin: .5rem 0 1.2rem;
+      font-size: .9rem;
+      margin: .35rem 0 .8rem;
     }
     .verse {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.05rem, 1.55vw, 1.35rem);
-      line-height: 1.85;
+      /* Scales with available width AND height — guarantees a 10-line verse fits */
+      font-size: clamp(.95rem, min(1.3vw, 2.1vh), 1.2rem);
+      line-height: 1.55;
       color: var(--ink);
       max-width: 36ch;
       margin: 0 auto;
     }
-    .verse p { margin: 0 0 1em; }
+    .verse p { margin: 0 0 .65em; }
     .page-number {
       font-family: 'Playfair Display', serif;
       font-style: italic;
       color: var(--ink-soft);
-      font-size: .85rem;
+      font-size: .8rem;
       letter-spacing: .15em;
-      margin: 1.5rem 0 0;
+      margin: .8rem 0 0;
     }
 
     /* Full-bleed cover image (no padding, image fills the page) */
@@ -673,35 +679,55 @@
     /* Mobile */
     @media (max-width: 768px) {
       #stage { padding: .5vh .5vw 4.5rem; }
-      .text-page { padding: 5% 6% 6%; gap: .5rem; }
+
+      /* Stack content from the top, no space-between distribution; allow
+         vertical scroll inside a page as a safety net so nothing is ever cut off. */
+      .text-page {
+        padding: 4% 6% 5%;
+        justify-content: flex-start;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
       .image-page { padding: 3%; }
-      .chapter-eyebrow { font-size: .75rem; letter-spacing: .18em; margin: 0; }
-      .chapter-title  { font-size: 1.15rem; line-height: 1.1; margin: .25rem 0 0; }
-      .chapter-date   { font-size: .78rem; margin: .2rem 0 .5rem; }
-      .verse { font-size: .9rem; line-height: 1.45; max-width: 100%; }
-      .verse p { margin: 0 0 .55em; }
-      .page-number { font-size: .7rem; margin: .4rem 0 0; }
+      .chapter-eyebrow { font-size: .72rem; letter-spacing: .16em; margin: 0; }
+      .chapter-title  { font-size: 1.05rem; line-height: 1.1; margin: .2rem 0 0; }
+      .chapter-date   { font-size: .72rem; margin: .15rem 0 .5rem; }
+      .verse { font-size: .82rem; line-height: 1.4; max-width: 100%; margin-top: .3rem; }
+      .verse p { margin: 0 0 .5em; }
+      .page-number { font-size: .65rem; margin: .5rem 0 0; }
+
       .image-frame { padding: 8px; box-shadow:
         0 0 0 4px var(--paper),
         0 0 0 5px #c9b687,
         0 8px 18px rgba(60,40,20,.22); }
-      .dedication-page { padding: 8% 8%; }
-      .dedication-page h2 { font-size: 1rem; margin-bottom: .8rem; }
-      .dedication-page p  { font-size: .92rem; line-height: 1.55; }
-      .dedication-name    { font-size: 1.6rem; margin: .8rem 0; }
-      .closing-page  { padding: 6% 6%; }
-      .closing-page h2 { font-size: .85rem; margin-bottom: .8rem; }
-      .closing-letter  { font-size: 1.05rem; line-height: 1.4; }
+      .dedication-page {
+        padding: 8% 8%;
+        justify-content: flex-start;
+        overflow-y: auto;
+      }
+      .dedication-page h2 { font-size: .95rem; margin-bottom: .7rem; }
+      .dedication-page p  { font-size: .88rem; line-height: 1.5; }
+      .dedication-name    { font-size: 1.5rem; margin: .7rem 0; }
+      .closing-page  {
+        padding: 6% 6%;
+        justify-content: flex-start;
+        overflow-y: auto;
+      }
+      .closing-page h2 { font-size: .8rem; margin-bottom: .8rem; }
+      .closing-letter  { font-size: 1rem; line-height: 1.4; }
+
       #controls { bottom: 1rem; padding: .35rem .55rem; gap: .4rem; }
       #controls button { width: 32px; height: 32px; font-size: 1rem; }
       #pageInfo { font-size: .7rem; min-width: 4.2em; }
       #hint { display: none; }
     }
-    /* Extra-tight mobile (small phones in landscape, etc.) */
-    @media (max-width: 380px) {
-      .verse { font-size: .82rem; line-height: 1.4; }
-      .chapter-title  { font-size: 1rem; }
-      .chapter-eyebrow{ font-size: .68rem; }
+    /* Extra-tight mobile (small phones, landscape, etc.) */
+    @media (max-width: 400px), (max-height: 720px) {
+      .verse { font-size: .78rem; line-height: 1.38; }
+      .verse p { margin: 0 0 .4em; }
+      .chapter-title  { font-size: .95rem; }
+      .chapter-eyebrow{ font-size: .65rem; }
+      .chapter-date   { font-size: .68rem; margin: .1rem 0 .35rem; }
     }
   </style>
 </head>
