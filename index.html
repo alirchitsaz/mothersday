@@ -356,8 +356,18 @@
     .text-page::-webkit-scrollbar { width: 6px; }
     .text-page::-webkit-scrollbar-thumb { background: rgba(120,90,50,.2); border-radius: 4px; }
     .text-page .heading-group { flex: 0 0 auto; }
-    .text-page .verse         { flex: 0 0 auto; margin-top: 1.4rem; }
-    .text-page .page-number   { flex: 0 0 auto; margin-top: auto; padding-top: 1.4rem; }
+    /* Verse stretches to fill remaining space, with its text centered vertically.
+       This makes the page feel balanced on both desktop and mobile, regardless
+       of whether lines wrap. */
+    .text-page .verse {
+      flex: 1 1 auto;
+      margin-top: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .text-page .verse > * { flex-shrink: 0; }
+    .text-page .page-number { flex: 0 0 auto; padding-top: 1rem; }
     .chapter-eyebrow {
       font-family: 'Playfair Display', serif;
       font-style: italic;
@@ -695,8 +705,8 @@
       .chapter-eyebrow { font-size: .72rem; letter-spacing: .16em; margin: 0; }
       .chapter-title  { font-size: 1.05rem; line-height: 1.1; margin: .2rem 0 0; }
       .chapter-date   { font-size: .72rem; margin: .15rem 0 .5rem; }
-      .verse { font-size: .82rem; line-height: 1.4; max-width: 100%; margin-top: .3rem; }
-      .verse p { margin: 0 0 .5em; }
+      .verse { font-size: .82rem; line-height: 1.55; max-width: 100%; margin-top: .3rem; }
+      .verse p { margin: 0 0 .65em; }
       .page-number { font-size: .65rem; margin: .5rem 0 0; }
 
       .image-frame { padding: 8px; box-shadow:
