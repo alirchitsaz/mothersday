@@ -224,10 +224,10 @@
     }
 
     #book {
-      box-shadow:
-        0 30px 70px rgba(0,0,0,.55),
-        0 8px 18px rgba(0,0,0,.35);
-      background: var(--paper);
+      /* Transparent so the empty half-spread (when on the cover) blends
+         into the dark background instead of showing a cream rectangle. */
+      background: transparent;
+      filter: drop-shadow(0 30px 50px rgba(0,0,0,.6));
     }
 
     /* Each .page is one half of the book */
