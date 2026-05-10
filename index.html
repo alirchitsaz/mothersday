@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Heart of the Adventure — A Mother's Day Story for Kristen</title>
-  <meta name="description" content="A digital storybook for Kristen — Mother's Day 2026. From Ali, Kamran, and Ashton." />
+  <title>The Kristen Effect — A Mother's Day Story</title>
+  <meta name="description" content="The Kristen Effect — our adventure, our anchor, our everything. A Mother's Day story for Kristen, from Ali, Kamran, and Ashton." />
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -277,7 +277,24 @@
       margin: 1.5rem 0 0;
     }
 
-    /* Cover */
+    /* Full-bleed cover image (no padding, image fills the page) */
+    .cover-image-page {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      position: relative;
+      background: #1a0f06;
+    }
+    .cover-image-page img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Designed cover (legacy, kept for fallback) */
     .cover-page {
       background:
         linear-gradient(135deg, #2c1a0e 0%, #4a2a14 50%, #6e4520 100%);
@@ -546,8 +563,8 @@
 
   <!-- Curtain / opening prompt -->
   <div id="curtain">
-    <h1>The Heart of the Adventure</h1>
-    <p>A Mother's Day story for Kristen, from Ali &amp; the boys.</p>
+    <h1>The Kristen Effect</h1>
+    <p>Our adventure, our anchor, our everything.<br>A Mother's Day story from Ali &amp; the boys.</p>
     <button id="openBtn">Open the book</button>
   </div>
 
@@ -555,28 +572,19 @@
   <div id="stage">
     <div id="book">
 
-      <!-- Page 1 — Front cover (shown alone) -->
+      <!-- Page 1 — Front cover (full-bleed image, title baked in) -->
       <div class="page">
-        <div class="cover-page">
-          <div class="cover-flourish">A Mother's Day Story</div>
-          <h1 class="cover-title">The Heart of the Adventure</h1>
-          <div class="cover-rule"></div>
-          <p class="cover-sub">A year of laughter, love, and miles together —</p>
-          <p class="cover-sub">all because of you.</p>
-          <p class="cover-from">For Kristen</p>
-          <div class="cover-date">
-            <span class="cover-sparkle">✦</span>
-            Mother's Day · May 10, 2026
-            <span class="cover-sparkle">✦</span>
-          </div>
+        <div class="cover-image-page">
+          <img src="cover.png" alt="The Kristen Effect — our adventure, our anchor, our everything." />
         </div>
       </div>
 
       <!-- Page 2 — Half-title (left of first inside spread) -->
       <div class="page">
         <div class="dedication-page">
-          <h2>The Heart of the Adventure</h2>
+          <h2>The Kristen Effect</h2>
           <p style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--ink-soft);">
+            Our adventure,<br>our anchor,<br>our everything.<br><br>
             A year in nine chapters,<br>told for one Mom.
           </p>
         </div>
@@ -588,9 +596,11 @@
           <h2>For</h2>
           <div class="dedication-name">Kristen</div>
           <p>
-            The planner of the trips,<br>
-            the keeper of the calendar,<br>
-            the soft place we all land.<br><br>
+            We dream up the trips together —<br>
+            but you pack every bag,<br>
+            remember every detail,<br>
+            and carry us all<br>
+            without us ever seeing the weight.<br><br>
             This little book is a year of our lives —<br>
             the way only you could make it look.
           </p>
@@ -683,8 +693,8 @@
           <div class="verse">
             <p>Then autumn arrived and the jerseys went red —<br>
             "Go Niners!" was all that the Chitsaz boys said.<br>
-            To Arizona we flew, then back to the Bay,<br>
-            To cheer on our team in the red-and-gold way.</p>
+            We drove down to Arizona, then north to the Bay —<br>
+            Twice to Levi's, in the red-and-gold way.</p>
 
             <p>But the truest "huddle" the year had in store<br>
             Was Thanksgiving in Marin — the family, and more.<br>
@@ -842,8 +852,8 @@
           </div>
           <div class="verse">
             <p>So here's to the planner, the rock, and the light,<br>
-            Who makes every morning and evening so bright.<br>
-            From the principal's desk to the Pilates mat,<br>
+            Who packs all the bags and remembers each flight.<br>
+            From her little French speakers to the Pilates mat,<br>
             She wears every cape and she wears every hat.</p>
 
             <p>To the heart of our home and the best Mom we know —<br>
@@ -880,7 +890,7 @@
 
             <p>To Curaçao's shores where the water is blue,<br>
             To celebrate <em>us</em> — and to celebrate you.<br>
-            With LionsDive waiting and mangroves so green,<br>
+            At One Mambo, on Mambo, with sand soft and clean —<br>
             The best part of life is the yet-to-be-seen.</p>
           </div>
           <div class="page-number">— nine —</div>
