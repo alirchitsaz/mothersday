@@ -1,388 +1,1051 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>The Heart & The Horizon</title>
-    <style>
-        :root {
-            --bg-color: #0a0a0a;
-            --text-main: #f4f4f5;
-            --text-muted: #a1a1aa;
-            --accent: #d4af37;
-        }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Heart of the Adventure — A Mother's Day Story for Kristen</title>
+  <meta name="description" content="A digital storybook for Kristen — Mother's Day 2026. From Ali, Kamran, and Ashton." />
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
 
-        /* Start Overlay */
-        #start-screen {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: #000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            transition: opacity 1s ease;
-        }
+  <!-- StPageFlip (real page-flip library) -->
+  <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
 
-        #start-btn {
-            background-color: transparent;
-            color: var(--accent);
-            border: 1px solid var(--accent);
-            padding: 15px 40px;
-            font-size: 1.2rem;
-            border-radius: 30px;
-            cursor: pointer;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-        }
+  <style>
+    :root {
+      --paper:        #f7efdc;
+      --paper-edge:   #e6d9bb;
+      --paper-shadow: #b9a87f;
+      --ink:          #2b2118;
+      --ink-soft:     #5a4530;
+      --gold:         #b8893a;
+      --gold-deep:    #8c5f1c;
+      --rose:         #b85c5c;
+      --navy:         #1f2f4a;
+    }
 
-        /* Story Container */
-        #story-container {
-            display: none;
-            padding-bottom: 100px;
-        }
+    * { box-sizing: border-box; }
 
-        .chapter {
-            min-height: 100vh;
-            padding: 60px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 50% 30%, #6a4a36 0%, #3a2618 55%, #1d100a 100%);
+      font-family: 'Cormorant Garamond', 'Georgia', serif;
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
 
-        .chapter-title {
-            font-size: 2rem;
-            color: var(--accent);
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-            font-weight: 300;
-        }
+    /* Intro cinematic fade */
+    #curtain {
+      position: fixed;
+      inset: 0;
+      background: #1d100a;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: #e9d5a8;
+      transition: opacity 1.4s ease;
+      text-align: center;
+      padding: 2rem;
+    }
+    #curtain h1 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      font-style: italic;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      margin: 0 0 .8rem;
+      letter-spacing: .02em;
+    }
+    #curtain p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      opacity: .85;
+      margin: 0 0 2rem;
+    }
+    #openBtn {
+      background: linear-gradient(180deg, #d8a64f, #a3771f);
+      color: #2b1c0a;
+      border: 1px solid #f0d28a;
+      padding: .9rem 2.2rem;
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(0,0,0,.45);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    #openBtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(0,0,0,.55);
+    }
 
-        .chapter-desc {
-            color: var(--text-muted);
-            margin-bottom: 40px;
-            max-width: 600px;
-            font-size: 1.1rem;
-        }
+    /* Main stage */
+    #stage {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5vh 2vw;
+    }
 
-        .media-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-            width: 100%;
-            max-width: 600px;
-        }
+    #book {
+      box-shadow:
+        0 30px 70px rgba(0,0,0,.55),
+        0 8px 18px rgba(0,0,0,.35);
+      background: var(--paper);
+    }
 
-        .media-item {
-            width: 100%;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            overflow: hidden;
-            position: relative;
-        }
+    /* Each .page is one half of the book */
+    .page {
+      background: var(--paper);
+      color: var(--ink);
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+      background-image:
+        radial-gradient(ellipse at 20% 0%, rgba(255,255,255,.55) 0%, transparent 45%),
+        radial-gradient(ellipse at 80% 100%, rgba(0,0,0,.06) 0%, transparent 55%),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.7 0 0 0 0 0.6 0 0 0 0 0.4 0 0 0 0.07 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+      background-size: auto, auto, 220px 220px;
+    }
 
-        img, video {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
+    .page.--left {
+      box-shadow: inset -25px 0 40px -25px rgba(60,40,20,.55);
+    }
+    .page.--right {
+      box-shadow: inset 25px 0 40px -25px rgba(60,40,20,.55);
+    }
 
-        .caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-            color: #fff;
-            text-align: left;
-            font-size: 0.9rem;
-        }
+    /* Layouts */
+    .image-page, .text-page, .cover-page, .dedication-page, .closing-page {
+      width: 100%;
+      height: 100%;
+      padding: 6%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
 
-        /* Animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
+    /* Illustration page */
+    .image-page {
+      padding: 5%;
+      background: var(--paper);
+    }
+    .image-frame {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      background:
+        linear-gradient(135deg, #f9f1d8, #e7d6ad);
+      border: 1px solid #c9b687;
+      box-shadow:
+        0 0 0 6px var(--paper),
+        0 0 0 7px #c9b687,
+        0 14px 30px rgba(60,40,20,.25);
+      position: relative;
+    }
+    .image-frame img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      box-shadow: 0 6px 20px rgba(0,0,0,.25);
+    }
+    .image-caption {
+      position: absolute;
+      bottom: -2.6em;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Caveat', cursive;
+      color: var(--gold-deep);
+      font-size: 1.3rem;
+      white-space: nowrap;
+    }
 
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    /* Dual-image collage page (used on chapters 2,3,4,5,7) */
+    .image-frame.dual {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding: 18px;
+      background:
+        linear-gradient(135deg, #f9f1d8, #e7d6ad);
+    }
+    .image-frame.dual .photo {
+      flex: 1 1 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .image-frame.dual .photo img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      box-shadow: 0 4px 12px rgba(60,40,20,.35);
+      border: 1px solid rgba(120,90,50,.25);
+    }
+    .image-frame.dual .photo .tag {
+      font-family: 'Caveat', cursive;
+      color: var(--gold-deep);
+      font-size: clamp(.95rem, 1.4vw, 1.2rem);
+      line-height: 1;
+      margin-top: 8px;
+      text-align: center;
+    }
+    .image-frame.dual .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(120,90,50,.4), transparent);
+      flex: 0 0 1px;
+    }
 
-        /* Easter Egg */
-        #easter-egg-trigger {
-            margin-top: 20px;
-            color: #ff6b6b;
-            font-size: 1.5rem;
-            cursor: pointer;
-            animation: pulse 2s infinite;
-        }
+    /* Text page */
+    .text-page {
+      padding: 10% 9%;
+      justify-content: space-between;
+      text-align: center;
+    }
+    .chapter-eyebrow {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: .95rem;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold-deep);
+      margin: 0;
+    }
+    .chapter-eyebrow::before,
+    .chapter-eyebrow::after {
+      content: "✦";
+      margin: 0 .8em;
+      color: var(--gold);
+      font-size: .85em;
+      vertical-align: middle;
+    }
+    .chapter-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 2.4vw, 2.1rem);
+      color: var(--navy);
+      line-height: 1.15;
+      margin: .6rem 0 0;
+    }
+    .chapter-date {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--ink-soft);
+      font-size: .95rem;
+      margin: .5rem 0 1.2rem;
+    }
+    .verse {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.05rem, 1.55vw, 1.35rem);
+      line-height: 1.85;
+      color: var(--ink);
+      max-width: 36ch;
+      margin: 0 auto;
+    }
+    .verse p { margin: 0 0 1em; }
+    .page-number {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--ink-soft);
+      font-size: .85rem;
+      letter-spacing: .15em;
+      margin: 1.5rem 0 0;
+    }
 
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.1); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.8; }
-        }
+    /* Cover */
+    .cover-page {
+      background:
+        linear-gradient(135deg, #2c1a0e 0%, #4a2a14 50%, #6e4520 100%);
+      color: #f4e3b8;
+      padding: 8%;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover-page::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1.5px solid rgba(232,200,140,.5);
+      border-radius: 2px;
+      pointer-events: none;
+    }
+    .cover-page::after {
+      content: "";
+      position: absolute;
+      inset: 24px;
+      border: 1px solid rgba(232,200,140,.25);
+      pointer-events: none;
+    }
+    .cover-flourish {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1rem;
+      letter-spacing: .35em;
+      text-transform: uppercase;
+      color: #e8c88c;
+      margin-bottom: 1.2rem;
+    }
+    .cover-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-style: italic;
+      font-size: clamp(2rem, 3.6vw, 3.2rem);
+      line-height: 1.05;
+      color: #f8eccb;
+      margin: 0;
+      text-shadow: 0 2px 16px rgba(0,0,0,.45);
+    }
+    .cover-rule {
+      width: 60%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #e8c88c, transparent);
+      margin: 1.6rem 0;
+    }
+    .cover-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 1.6vw, 1.25rem);
+      color: #f4e3b8;
+      margin: 0 0 .4rem;
+    }
+    .cover-from {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1.4rem, 2.4vw, 2rem);
+      color: #f0d28a;
+      margin: 1rem 0 0;
+    }
+    .cover-date {
+      position: absolute;
+      bottom: 7%;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #d9b87a;
+      letter-spacing: .25em;
+      font-size: .8rem;
+      text-transform: uppercase;
+    }
+    .cover-sparkle {
+      font-size: 1.6rem;
+      color: #f0d28a;
+      margin: 0 .4rem;
+    }
 
-        #easter-egg-modal {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.95);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 200;
-            flex-direction: column;
-            padding: 20px;
-        }
+    /* Dedication */
+    .dedication-page {
+      padding: 14% 12%;
+      text-align: center;
+      justify-content: center;
+    }
+    .dedication-page h2 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--gold-deep);
+      font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      margin: 0 0 1.4rem;
+    }
+    .dedication-page p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.05rem, 1.55vw, 1.3rem);
+      line-height: 1.85;
+      color: var(--ink);
+    }
+    .dedication-name {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(2rem, 3.2vw, 2.8rem);
+      color: var(--rose);
+      margin: 1.2rem 0;
+    }
 
-        #easter-egg-modal img {
-            max-width: 90%;
-            max-height: 70vh;
-            border-radius: 12px;
-            border: 2px solid #ff6b6b;
-        }
+    /* Closing love letter */
+    .closing-page {
+      padding: 9% 8%;
+      justify-content: center;
+      text-align: center;
+    }
+    .closing-page h2 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--gold-deep);
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      font-size: 1rem;
+      margin: 0 0 1.5rem;
+    }
+    .closing-letter {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+      line-height: 1.55;
+      color: var(--navy);
+      max-width: 32ch;
+      margin: 0 auto;
+    }
+    .closing-letter p { margin: 0 0 1em; }
+    .closing-sig {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+      color: var(--rose);
+      margin-top: 1.2rem;
+    }
+    .closing-date {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: .85rem;
+      color: var(--ink-soft);
+      letter-spacing: .15em;
+      margin-top: .4rem;
+    }
 
-        #close-modal {
-            margin-top: 20px;
-            color: #fff;
-            background: transparent;
-            border: 1px solid #fff;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-        }
+    /* Back cover */
+    .back-cover {
+      background:
+        linear-gradient(135deg, #2c1a0e 0%, #4a2a14 50%, #6e4520 100%);
+      color: #e8c88c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 12%;
+      position: relative;
+    }
+    .back-cover::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1.5px solid rgba(232,200,140,.4);
+      pointer-events: none;
+    }
+    .back-cover .heart {
+      font-size: 2.2rem;
+      color: #d8a04f;
+      margin-bottom: 1rem;
+    }
+    .back-cover p {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 1.5vw, 1.2rem);
+      line-height: 1.6;
+      max-width: 22ch;
+      margin: 0 auto;
+    }
 
-        /* Boarding Pass */
-        .boarding-pass {
-            background: #fff;
-            color: #000;
-            padding: 20px;
-            border-radius: 12px;
-            margin-top: 30px;
-            text-align: left;
-            border-left: 8px solid var(--accent);
-        }
-        
-        .boarding-pass h3 {
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            color: #555;
-        }
-        .boarding-pass h2 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-    </style>
+    /* Controls */
+    #controls {
+      position: fixed;
+      bottom: 1.2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: .8rem;
+      align-items: center;
+      background: rgba(20,12,8,.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(232,200,140,.25);
+      border-radius: 999px;
+      padding: .5rem 1rem;
+      z-index: 50;
+      transition: opacity .3s ease;
+    }
+    #controls button {
+      background: transparent;
+      color: #f0d28a;
+      border: 1px solid rgba(232,200,140,.4);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .2s ease;
+    }
+    #controls button:hover {
+      background: rgba(232,200,140,.15);
+      border-color: #f0d28a;
+    }
+    #controls button:disabled {
+      opacity: .35;
+      cursor: not-allowed;
+    }
+    #pageInfo {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #f0d28a;
+      font-size: .85rem;
+      letter-spacing: .12em;
+      min-width: 6em;
+      text-align: center;
+    }
+
+    /* Hint at the start */
+    #hint {
+      position: fixed;
+      bottom: 5.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #e8c88c;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      letter-spacing: .04em;
+      opacity: .8;
+      pointer-events: none;
+      animation: bob 2.2s ease-in-out infinite;
+      z-index: 40;
+    }
+    @keyframes bob {
+      0%, 100% { transform: translate(-50%, 0); opacity: .55; }
+      50%      { transform: translate(-50%, -6px); opacity: 1; }
+    }
+    #hint.hidden { display: none; }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      #stage { padding: 1vh 1vw; }
+      .text-page { padding: 8% 6%; }
+      .image-page { padding: 4%; }
+      .verse { font-size: 1.05rem; line-height: 1.7; }
+      #controls { bottom: .6rem; padding: .4rem .6rem; gap: .4rem; }
+      #controls button { width: 34px; height: 34px; }
+      #pageInfo { font-size: .75rem; min-width: 5em; }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Audio Elements -->
-    <audio id="audio-intro" src="audio/intro_voice.mp3"></audio>
-    <audio id="audio-track1" src="audio/teddy_amazing.mp3" loop></audio>
-    <audio id="audio-track2" src="audio/teddy_lose_control.mp3" loop></audio>
+  <!-- Curtain / opening prompt -->
+  <div id="curtain">
+    <h1>The Heart of the Adventure</h1>
+    <p>A Mother's Day story for Kristen, from Ali &amp; the boys.</p>
+    <button id="openBtn">Open the book</button>
+  </div>
 
-    <!-- Start Screen -->
-    <div id="start-screen">
-        <h1 style="color: #fff; font-weight: 300; margin-bottom: 30px; font-size: 1.5rem; letter-spacing: 2px;">For Kristen.</h1>
-        <button id="start-btn">Begin the Journey</button>
-    </div>
+  <!-- Stage with the book -->
+  <div id="stage">
+    <div id="book">
 
-    <!-- Main Story Container -->
-    <div id="story-container">
-        
-        <!-- Chapter 1 -->
-        <div class="chapter fade-in">
-            <h2 class="chapter-title">The Anchor</h2>
-            <p class="chapter-desc">Through the heaviest losses and the daily hustle, you are our heart.</p>
-            <div class="media-grid">
-                <div class="media-item fade-in"><img src="chapter1_anchor/marin_thanksgiving.jpg" alt="Marin Thanksgiving" onerror="this.style.display='none'"><div class="caption">Thanksgiving in Marin. Our tradition.</div></div>
-                <div class="media-item fade-in"><img src="chapter1_anchor/kobe_memory.jpg" alt="Kobe Memory" onerror="this.style.display='none'"><div class="caption">Saying goodbye to our best boy. You carried us through.</div></div>
-                <div class="media-item fade-in"><img src="chapter1_anchor/kristen_principal.jpg" alt="Principal Kristen" onerror="this.style.display='none'"><div class="caption">The boss by day...</div></div>
-                <div class="media-item fade-in"><video src="chapter1_anchor/kristen_cooking.mp4" autoplay loop muted playsinline></video><div class="caption">...and the heart of our home by night.</div></div>
-                <div class="media-item fade-in"><img src="chapter1_anchor/kristen_pilates.jpg" alt="Pilates" onerror="this.style.display='none'"><div class="caption">Finding your center.</div></div>
-                <div class="media-item fade-in"><img src="chapter1_anchor/neighborhood_friends.jpg" alt="Friends" onerror="this.style.display='none'"><div class="caption">The social glue of our neighborhood.</div></div>
-            </div>
+      <!-- Page 1 — Front cover (shown alone) -->
+      <div class="page">
+        <div class="cover-page">
+          <div class="cover-flourish">A Mother's Day Story</div>
+          <h1 class="cover-title">The Heart of the Adventure</h1>
+          <div class="cover-rule"></div>
+          <p class="cover-sub">A year of laughter, love, and miles together —</p>
+          <p class="cover-sub">all because of you.</p>
+          <p class="cover-from">For Kristen</p>
+          <div class="cover-date">
+            <span class="cover-sparkle">✦</span>
+            Mother's Day · May 10, 2026
+            <span class="cover-sparkle">✦</span>
+          </div>
         </div>
+      </div>
 
-        <!-- Chapter 2 -->
-        <div class="chapter fade-in" id="chapter-2" style="background: linear-gradient(to bottom, var(--bg-color), #1a202c);">
+      <!-- Page 2 — Half-title (left of first inside spread) -->
+      <div class="page">
+        <div class="dedication-page">
+          <h2>The Heart of the Adventure</h2>
+          <p style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--ink-soft);">
+            A year in nine chapters,<br>told for one Mom.
+          </p>
+        </div>
+      </div>
+
+      <!-- Page 3 — Dedication (right of first inside spread) -->
+      <div class="page">
+        <div class="dedication-page">
+          <h2>For</h2>
+          <div class="dedication-name">Kristen</div>
+          <p>
+            The planner of the trips,<br>
+            the keeper of the calendar,<br>
+            the soft place we all land.<br><br>
+            This little book is a year of our lives —<br>
+            the way only you could make it look.
+          </p>
+        </div>
+      </div>
+
+      <!-- Page 4 — Chapter 1 illustration (left of spread) -->
+      <div class="page">
+        <div class="image-page">
+          <div class="image-frame">
+            <img src="page1.png" alt="The cozy living room — Mom and the boys reading together with Kobe glowing as a star outside the window." />
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 4 — Page 1 verse -->
+      <div class="page">
+        <div class="text-page">
+          <div>
+            <p class="chapter-eyebrow">Chapter One</p>
+            <h2 class="chapter-title">The Soul of the House</h2>
+            <p class="chapter-date">Where every adventure begins</p>
+          </div>
+          <div class="verse">
+            <p>In a home full of sneakers and laughter and noise,<br>
+            Lives the heart of the family — Mom, and three boys.<br>
+            With Kamran and Ashton and Ali, her crew,<br>
+            The year that just passed felt sparkly and new.</p>
+
+            <p>But one tiny soul had to travel ahead —<br>
+            Sweet Kobe, our "wudder butter," our sleepy old head.<br>
+            In the chill of the winter, he curled up to rest,<br>
+            Our chocolate dachshund — the bravest, the best.<br>
+            Though his paws left the floor, he didn't go far —<br>
+            He watches our travels from a bright, wagging star.</p>
+          </div>
+          <div class="page-number">— one —</div>
+        </div>
+      </div>
+
+      <!-- Chapter 2 illustration -->
+      <div class="page">
+        <div class="image-page">
+          <div class="image-frame">
+            <img src="page2b.png" alt="Gaylord Pacific water slides and Cabo sunset with Mom in a sun hat." />
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 6 — Page 2 verse -->
+      <div class="page">
+        <div class="text-page">
+          <div>
+            <p class="chapter-eyebrow">Chapter Two</p>
+            <h2 class="chapter-title">Splashes &amp; Sun</h2>
+            <p class="chapter-date">May – June 2025 · Gaylord Pacific &amp; Cabo</p>
+          </div>
+          <div class="verse">
+            <p>When the May sun was high, we all hit the road,<br>
+            Off to Gaylord Pacific where the pool slides flowed.<br>
+            With splashes and laughter, the boys had a ball —<br>
+            And Mom made the magic that held it all.</p>
+
+            <p>Then June and the breeze and the salt of Los Cabos,<br>
+            The white sand, the warm sea, the way the sun glows.<br>
+            With Mom as our compass, our sunshine, our guide,<br>
+            We chased every wave with the world on our side.</p>
+          </div>
+          <div class="page-number">— two —</div>
+        </div>
+      </div>
+
+      <!-- Chapter 3 illustration -->
+      <div class="page">
+        <div class="image-page">
+          <div class="image-frame">
+            <img src="page3b.png" alt="Thanksgiving in Marin — the family huddled around a candle-lit table, Niners gear, confetti." />
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 8 — Page 3 verse -->
+      <div class="page">
+        <div class="text-page">
+          <div>
+            <p class="chapter-eyebrow">Chapter Three</p>
+            <h2 class="chapter-title">The Red &amp; The Gold</h2>
+            <p class="chapter-date">Fall 2025 · Niners Season &amp; Thanksgiving in Marin</p>
+          </div>
+          <div class="verse">
+            <p>Then autumn arrived and the jerseys went red —<br>
+            "Go Niners!" was all that the Chitsaz boys said.<br>
+            To Arizona we flew, then back to the Bay,<br>
+            To cheer on our team in the red-and-gold way.</p>
+
+            <p>But the truest "huddle" the year had in store<br>
+            Was Thanksgiving in Marin — the family, and more.<br>
+            Around a long table, with love in the air,<br>
+            We gave thanks for the Mom who is always right there.</p>
+          </div>
+          <div class="page-number">— three —</div>
+        </div>
+      </div>
+
+      <!-- Chapter 4 illustration -->
+      <div class="page">
+        <div class="image-page">
+          <div class="image-frame">
+            <img src="page4.png" alt="Mom in a Tahoe cabin watching the family carve down the mountain at sunrise." />
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 10 — Page 4 verse -->
+      <div class="page">
+        <div class="text-page">
+          <div>
+            <p class="chapter-eyebrow">Chapter Four</p>
             <h2 class="chapter-title">The Winter Carves</h2>
-            <p class="chapter-desc">Finding our speed and locking in on the mountain.</p>
-            <div class="media-grid">
-                <div class="media-item fade-in"><video src="chapter2_snow/tahoe_christmas.mp4" autoplay loop muted playsinline></video><div class="caption">Tahoe Christmas. Pure magic.</div></div>
-                <div class="media-item fade-in"><video src="chapter2_snow/mammoth_april.mp4" autoplay loop muted playsinline></video><div class="caption">Spring riding in Mammoth. +12/-3 and dropping in.</div></div>
-            </div>
-        </div>
+            <p class="chapter-date">Dec 2025 – April 2026 · Tahoe with the Wagners &amp; Mammoth</p>
+          </div>
+          <div class="verse">
+            <p>The mountains were calling, the powder ran deep —<br>
+            To Tahoe we climbed while the world was asleep.<br>
+            With Dave, Martha, Mateo — the Wagners in tow,<br>
+            Our two families painted a streak through the snow.</p>
 
-        <!-- Chapter 3 -->
-        <div class="chapter fade-in" id="chapter-3">
-            <h2 class="chapter-title">The Sun & The Thrills</h2>
-            <p class="chapter-desc">Resets, red rocks, and making the boys feel like legends.</p>
-            <div class="media-grid">
-                <div class="media-item fade-in"><img src="chapter3_sun/laguna_summer.jpg" alt="Laguna Summer" onerror="this.style.display='none'"><div class="caption">Summer days in Laguna.</div></div>
-                <div class="media-item fade-in"><img src="chapter3_sun/zion_hike.jpg" alt="Zion Red Rocks" onerror="this.style.display='none'"><div class="caption">Conquering Zion for Spring Break.</div></div>
-                <div class="media-item fade-in"><img src="chapter3_sun/vegas_lights.jpg" alt="Vegas" onerror="this.style.display='none'"><div class="caption">Vegas lights.</div></div>
-                <div class="media-item fade-in"><img src="chapter3_sun/gaylord_pacific.jpg" alt="Gaylord" onerror="this.style.display='none'"><div class="caption">Quick resets at the Gaylord Pacific.</div></div>
-                <div class="media-item fade-in"><img src="chapter3_sun/ashton_universal.jpg" alt="Ashton 8" onerror="this.style.display='none'"><div class="caption">Ashton hits 8 at Universal!</div></div>
-                <div class="media-item fade-in"><video src="chapter3_sun/kamran_sixflags.mp4" autoplay loop muted playsinline></video><div class="caption">Kamran is officially 13. Six Flags survival mode.</div></div>
-            </div>
+            <p>Through the wind and the frost and the pine-covered heights,<br>
+            Mom kept us all cozy through cold mountain nights.<br>
+            From a Tahoe Christmas to Mammoth in spring,<br>
+            We felt every thrill that the mountains can bring.</p>
+          </div>
+          <div class="page-number">— four —</div>
         </div>
+      </div>
 
-        <!-- Chapter 4 -->
-        <div class="chapter fade-in">
-            <h2 class="chapter-title">Just Us & The Horizon</h2>
-            <p class="chapter-desc">Because amidst all the beautiful chaos, it's always been you.</p>
-            <div class="media-grid">
-                <div class="media-item fade-in"><img src="chapter4_horizon/cabo_june.jpg" alt="Cabo" onerror="this.style.display='none'"><div class="caption">Sun soaked in Cabo.</div></div>
-                <div class="media-item fade-in"><img src="chapter4_horizon/just_us.jpg" alt="Just Us" onerror="this.style.display='none'"><div class="caption">My everything.</div></div>
-                
-                <!-- Interactive Easter Egg Trigger -->
-                <div id="easter-egg-trigger" class="fade-in">🎸 🎵</div>
-
-                <div class="media-item fade-in"><img src="chapter4_horizon/curacao_preview.jpg" alt="Curacao" onerror="this.style.display='none'"><div class="caption">What's next...</div></div>
-                
-                <!-- Boarding Pass Graphic -->
-                <div class="boarding-pass fade-in">
-                    <h3>Passenger</h3>
-                    <h2>Kristen</h2>
-                    <h3>Destination</h3>
-                    <h2>Curaçao</h2>
-                    <p style="font-size: 0.8rem; color: #777;">LionsDive & Hilton Mangrove • June 5th</p>
-                </div>
-            </div>
+      <!-- Chapter 5 illustration -->
+      <div class="page">
+        <div class="image-page">
+          <div class="image-frame">
+            <img src="page5b.png" alt="Spring break — bikes through the red canyon, Bellagio fountains, Din Tai Fung, and Mystère." />
+          </div>
         </div>
+      </div>
+
+      <!-- Page 12 — Page 5 verse -->
+      <div class="page">
+        <div class="text-page">
+          <div>
+            <p class="chapter-eyebrow">Chapter Five</p>
+            <h2 class="chapter-title">Red Rocks &amp; Bright Lights</h2>
+            <p class="chapter-date">March 2026 · Zion &amp; Las Vegas</p>
+          </div>
+          <div class="verse">
+            <p>For Spring Break we wound through the canyons of red,<br>
+            With Zion's tall towers right over our head.<br>
+            We zoomed on our e-bikes and hiked every trail,<br>
+            And cooled off in salt water when muscles would fail.</p>
+
+            <p>Then Vegas! Top Golf! And a show called Mystère —<br>
+            With Din Tai Fung dumplings — the greatest of fare.<br>
+            From the dust of the trail to the neon-bright street,<br>
+            Mom is the reason the journey feels sweet.</p>
+          </div>
+          <div class="page-number">— five —</div>
+        </div>
+      </div>
+
+      <!-- Page 13 — Page 6 illustration -->
+      <div class="page">
+        <div class="image-page">
+          <div class="image-frame">
+            <img src="page6.jpg" alt="Boys' birthdays — Universal Studios for Ashton, Magic Mountain for Kamran, with Mom at the center." />
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 14 — Page 6 verse -->
+      <div class="page">
+        <div class="text-page">
+          <div>
+            <p class="chapter-eyebrow">Chapter Six</p>
+            <h2 class="chapter-title">The Milestone Marches</h2>
+            <p class="chapter-date">March 9 – April 28, 2026 · Eight + Thirteen</p>
+          </div>
+          <div class="verse">
+            <p>March ninth — eight candles for Ashton, the wild!<br>
+            At Universal Studios, our Wizarding child.<br>
+            Then April brought thirteen for Kamran the tall —<br>
+            At Magic Mountain we conquered them all.</p>
+
+            <p>Thirteen and eight — oh, the boys are so grown,<br>
+            In the blink of an eye they'll be running their own.<br>
+            But no matter how big or how brave they may be,<br>
+            They will always need Mom — and so will I, see?</p>
+          </div>
+          <div class="page-number">— six —</div>
+        </div>
+      </div>
+
+      <!-- Chapter 7 illustration -->
+      <div class="page">
+        <div class="image-page">
+          <div class="image-frame">
+            <img src="page7b.png" alt="Inside the Laguna home — the family cuddled on the sofa as the sun sets over the Pacific." />
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 16 — Page 7 verse -->
+      <div class="page">
+        <div class="text-page">
+          <div>
+            <p class="chapter-eyebrow">Chapter Seven</p>
+            <h2 class="chapter-title">The Sanctuary</h2>
+            <p class="chapter-date">Our place by the sea · Laguna Beach</p>
+          </div>
+          <div class="verse">
+            <p>But sometimes the world is a bit of a rush,<br>
+            So we look for the blue, and the twilight's soft hush.<br>
+            To Laguna we drive, to our house by the sea —<br>
+            The place where we're quiet and happy and free.</p>
+
+            <p>Far from the chaos, with salt in our hair,<br>
+            We breathe in the peace of the cliffside air.<br>
+            It's our sanctuary home, where we mend and recharge —<br>
+            Before the next adventure begins, big and large.</p>
+          </div>
+          <div class="page-number">— seven —</div>
+        </div>
+      </div>
+
+      <!-- Page 17 — Page 8 illustration -->
+      <div class="page">
+        <div class="image-page">
+          <div class="image-frame">
+            <img src="page8.png" alt="A 'Hero Mom' portrait — Kristen surrounded by a wreath of all the parts of her life." />
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 18 — Page 8 verse -->
+      <div class="page">
+        <div class="text-page">
+          <div>
+            <p class="chapter-eyebrow">Chapter Eight</p>
+            <h2 class="chapter-title">The Anchor</h2>
+            <p class="chapter-date">Mother's Day · May 10, 2026</p>
+          </div>
+          <div class="verse">
+            <p>So here's to the planner, the rock, and the light,<br>
+            Who makes every morning and evening so bright.<br>
+            From the principal's desk to the Pilates mat,<br>
+            She wears every cape and she wears every hat.</p>
+
+            <p>To the heart of our home and the best Mom we know —<br>
+            We love you, Kristen, more than these pages can show.<br>
+            For all that you are, and for all that you do —<br>
+            Have the happiest Mother's Day, made just for you.</p>
+          </div>
+          <div class="page-number">— eight —</div>
+        </div>
+      </div>
+
+      <!-- Page 19 — Page 9 illustration -->
+      <div class="page">
+        <div class="image-page">
+          <div class="image-frame">
+            <img src="page9.png" alt="Looking through an airplane window down at the turquoise water of Curaçao." />
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 20 — Page 9 verse -->
+      <div class="page">
+        <div class="text-page">
+          <div>
+            <p class="chapter-eyebrow">Chapter Nine</p>
+            <h2 class="chapter-title">The Horizon</h2>
+            <p class="chapter-date">June 5, 2026 · Curaçao · LionsDive</p>
+          </div>
+          <div class="verse">
+            <p>But hold on — one secret, one trick up our sleeve,<br>
+            A surprise of the kind only Mom would believe.<br>
+            On the fifth day of June, we will board a plane,<br>
+            And leave behind home, the ho-hum, the rain.</p>
+
+            <p>To Curaçao's shores where the water is blue,<br>
+            To celebrate <em>us</em> — and to celebrate you.<br>
+            With LionsDive waiting and mangroves so green,<br>
+            The best part of life is the yet-to-be-seen.</p>
+          </div>
+          <div class="page-number">— nine —</div>
+        </div>
+      </div>
+
+      <!-- Closing letter — left of final spread -->
+      <div class="page">
+        <div class="closing-page">
+          <h2>From your boys</h2>
+          <div class="closing-letter">
+            <p>Mom — you are the planner,<br>the soft place to land,<br>the cheer in our chaos,<br>the calm in our hand.</p>
+
+            <p>You make every season<br>a story worth living,<br>and every small day<br>feel a little like giving.</p>
+
+            <p>Today, tomorrow,<br>and all of the rest —<br>we love you, we thank you,<br>you really are best.</p>
+          </div>
+          <div class="closing-sig">— Ali, Kamran &amp; Ashton</div>
+          <div class="closing-date">Mother's Day · 5.10.2026</div>
+        </div>
+      </div>
+
+      <!-- "The End" — right of final spread -->
+      <div class="page">
+        <div class="dedication-page" style="justify-content:center;">
+          <div style="font-family:'Playfair Display',serif;font-style:italic;color:var(--gold-deep);letter-spacing:.3em;text-transform:uppercase;font-size:.95rem;margin-bottom:1.4rem;">— Fin —</div>
+          <div style="font-family:'Caveat',cursive;font-size:clamp(1.6rem,2.6vw,2.2rem);color:var(--rose);line-height:1.4;">
+            and the adventure<br>keeps going…
+          </div>
+          <div style="margin-top:2rem;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--ink-soft);">
+            ♥
+          </div>
+        </div>
+      </div>
+
+      <!-- Back cover (alone) -->
+      <div class="page">
+        <div class="back-cover">
+          <div>
+            <div class="heart">♥</div>
+            <p>The end of the book —<br>but never the story.</p>
+          </div>
+        </div>
+      </div>
+
     </div>
+  </div>
 
-    <!-- Easter Egg Modal -->
-    <div id="easter-egg-modal">
-        <h3 style="color: #fff; margin-bottom: 15px; font-weight: 300;">A little secret just for us...</h3>
-        <img src="chapter4_horizon/nashville_easter_egg.jpg" alt="Nashville" onerror="this.style.display='none'">
-        <button id="close-modal">Close</button>
-    </div>
+  <!-- Hint -->
+  <div id="hint">drag a corner — or use ←  →</div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const startBtn = document.getElementById('start-btn');
-            const startScreen = document.getElementById('start-screen');
-            const storyContainer = document.getElementById('story-container');
-            const audioIntro = document.getElementById('audio-intro');
-            const audioTrack1 = document.getElementById('audio-track1');
-            const audioTrack2 = document.getElementById('audio-track2');
+  <!-- Controls -->
+  <div id="controls">
+    <button id="prevBtn" aria-label="Previous page">‹</button>
+    <span id="pageInfo">— · —</span>
+    <button id="nextBtn" aria-label="Next page">›</button>
+  </div>
 
-            // Scroll Animation Observer
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        
-                        // Audio Crossfade Logic based on Chapters
-                        if (entry.target.id === 'chapter-2') {
-                            fadeAudio(audioTrack1, audioTrack2);
-                        }
-                    }
-                });
-            }, { threshold: 0.1 });
+  <script>
+    const curtain = document.getElementById('curtain');
+    const openBtn = document.getElementById('openBtn');
+    const bookEl  = document.getElementById('book');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageInfo= document.getElementById('pageInfo');
+    const hint    = document.getElementById('hint');
 
-            // Start Button Logic (Unlocks iOS Audio Context)
-            startBtn.addEventListener('click', () => {
-                startScreen.style.opacity = '0';
-                setTimeout(() => {
-                    startScreen.style.display = 'none';
-                    storyContainer.style.display = 'block';
-                    
-                    // Start observing elements
-                    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-                    
-                    // Audio Playback flow
-                    audioIntro.play().catch(() => {
-                        // If intro fails or doesn't exist, start track 1
-                        audioTrack1.volume = 0.5;
-                        audioTrack1.play().catch(e => console.log("Audio play blocked", e));
-                    });
-                    
-                    audioIntro.onended = () => {
-                        audioTrack1.volume = 0;
-                        audioTrack1.play();
-                        fadeInAudio(audioTrack1, 0.5);
-                    };
-                    
-                }, 1000);
-            });
+    let pageFlip = null;
 
-            // Audio Fade Helpers
-            function fadeInAudio(audio, targetVolume) {
-                let vol = 0;
-                audio.volume = vol;
-                const fade = setInterval(() => {
-                    if (vol < targetVolume) {
-                        vol += 0.05;
-                        audio.volume = Math.min(vol, targetVolume);
-                    } else {
-                        clearInterval(fade);
-                    }
-                }, 200);
-            }
+    /* StPageFlip's `width`/`height` are PER-PAGE, not total book.
+       In landscape mode the rendered book is 2 × width wide. */
+    function getDims() {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const isMobile = vw < 820;
 
-            function fadeAudio(audioOut, audioIn) {
-                if (audioIn.paused) {
-                    audioIn.volume = 0;
-                    audioIn.play();
-                    
-                    let volOut = audioOut.volume;
-                    let volIn = 0;
-                    
-                    const crossfade = setInterval(() => {
-                        if (volOut > 0) {
-                            volOut -= 0.05;
-                            audioOut.volume = Math.max(volOut, 0);
-                        }
-                        if (volIn < 0.6) { // Max volume for track 2
-                            volIn += 0.05;
-                            audioIn.volume = Math.min(volIn, 0.6);
-                        }
-                        if (volOut <= 0 && volIn >= 0.6) {
-                            clearInterval(crossfade);
-                            audioOut.pause();
-                        }
-                    }, 200);
-                }
-            }
+      if (isMobile) {
+        // Portrait single-page mode
+        const pageW = Math.min(vw * 0.94, 460);
+        const pageH = Math.min(vh * 0.84, pageW * 1.4);
+        return { width: Math.floor(pageW), height: Math.floor(pageH), mobile: true };
+      }
 
-            // Easter Egg Logic
-            const eggTrigger = document.getElementById('easter-egg-trigger');
-            const eggModal = document.getElementById('easter-egg-modal');
-            const closeModal = document.getElementById('close-modal');
+      // Desktop landscape — two pages side by side
+      // Whole book fits within 92% of viewport, leaving room for controls
+      const maxBookW = Math.min(vw * 0.92, 1500);
+      const maxBookH = Math.min(vh * 0.88, 940);
 
-            eggTrigger.addEventListener('click', () => {
-                eggModal.style.display = 'flex';
-            });
+      // Each page is half the book width
+      let pageW = maxBookW / 2;
+      let pageH = maxBookH;
 
-            closeModal.addEventListener('click', () => {
-                eggModal.style.display = 'none';
-            });
-        });
-    </script>
+      // Each page should look like a real book page — aspect ~3:4 (0.7–0.78)
+      const ratio = pageW / pageH;
+      if (ratio > 0.78) {
+        // Too wide → narrow it down (pin to height)
+        pageW = pageH * 0.78;
+      } else if (ratio < 0.62) {
+        // Too narrow → shorten height
+        pageH = pageW / 0.62;
+      }
+
+      return { width: Math.floor(pageW), height: Math.floor(pageH), mobile: false };
+    }
+
+    function buildBook() {
+      const { width, height, mobile } = getDims();
+      pageFlip = new St.PageFlip(bookEl, {
+        width,
+        height,
+        size: 'fixed',
+        minWidth: 280,
+        maxWidth: 900,
+        minHeight: 380,
+        maxHeight: 1200,
+        showCover: true,
+        usePortrait: mobile,
+        maxShadowOpacity: 0.5,
+        flippingTime: 900,
+        autoSize: false,
+        drawShadow: true,
+        mobileScrollSupport: true,
+        useMouseEvents: true,
+      });
+      const pages = bookEl.querySelectorAll('.page');
+      pageFlip.loadFromHTML(pages);
+      pageFlip.on('flip', updateInfo);
+      pageFlip.on('changeOrientation', updateInfo);
+      updateInfo();
+    }
+
+    function updateInfo() {
+      if (!pageFlip) return;
+      const total = pageFlip.getPageCount();
+      const cur = pageFlip.getCurrentPageIndex() + 1;
+      pageInfo.textContent = cur + ' / ' + total;
+      prevBtn.disabled = cur <= 1;
+      nextBtn.disabled = cur >= total;
+    }
+
+    openBtn.addEventListener('click', () => {
+      curtain.style.opacity = '0';
+      setTimeout(() => { curtain.style.display = 'none'; }, 1400);
+      buildBook();
+      setTimeout(() => { hint.classList.add('hidden'); }, 9000);
+    });
+
+    prevBtn.addEventListener('click', () => pageFlip && pageFlip.flipPrev());
+    nextBtn.addEventListener('click', () => pageFlip && pageFlip.flipNext());
+
+    document.addEventListener('keydown', (e) => {
+      if (!pageFlip) return;
+      if (e.key === 'ArrowRight') pageFlip.flipNext();
+      if (e.key === 'ArrowLeft')  pageFlip.flipPrev();
+    });
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      if (!pageFlip) return;
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        const { width, height, mobile } = getDims();
+        pageFlip.update({ width, height, usePortrait: mobile });
+      }, 180);
+    });
+  </script>
 </body>
 </html>
